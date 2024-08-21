@@ -1,4 +1,4 @@
-# CSC341 Data Structures (Spring 2024)
+# CSC341 Data Structures (Fall 2024)
 
 This is the repository of code for CSC341 Data Structures. The majority of assignments
 will be posted here including weekly programming assignments and in class exercises. In this course, you
