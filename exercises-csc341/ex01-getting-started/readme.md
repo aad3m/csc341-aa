@@ -15,7 +15,7 @@ Navigate to the working folder with this exercise. Compile the code.
 To run it, you have to supply a color and radius size for the circle. Color options are "red", "blue", and "green". It might look like this ...
 
 ```
-amylarson@MacBook-Pro-110 ex01-getting-started %java Main red 40
+java Main red 40
 ```
 
 Close the graphics window to stop the program.
