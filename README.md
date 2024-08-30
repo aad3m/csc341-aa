@@ -92,7 +92,7 @@ a good idea to have multiple copies of files all over your machine.
 
 1. Open a terminal.
 2. Navigate to the directory in which you want to place the repo.
-3. Type `git clone https://github.com/lars1050/csc341-s24`
+3. Type `git clone https://github.com/lars1050/csc341-f24`
 4. `ls` and you should see the new folder. You can also go to your Finder and see it there.
 
 You can change the name of the folder without impacting the repository.
