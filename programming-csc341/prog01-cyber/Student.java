@@ -45,7 +45,7 @@ public class Student {
     }
     
     /** Constructor with all information provided.
-    * @parame u username
+    * @param u username
     * @param n name of Student
     * @param m major
     * @param cc completed courses
