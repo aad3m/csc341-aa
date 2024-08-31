@@ -48,7 +48,7 @@ public class Student {
     * @param u username
     * @param n name of Student
     * @param m major
-    * @param cc completed courses
+    * @param clist completed courses
     */
     public Student(String u, String n, String m, LinkedList<String> clist) {
     	username = u;
