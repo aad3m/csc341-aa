@@ -33,7 +33,6 @@ public class Hasher {
     /** Transform a password into a fixed length string.
      * 
      * @param password user-entered password
-     * @param salt unique series of characters used to pad the password
      * @return salted password
      */
     public String salt(String password) {
@@ -106,8 +105,6 @@ public class Hasher {
 
     /** Transforms user-entered password to a hashed string
      * @param password user-entered password
-     * @param key unique string of ascii characters for hashing password
-     * @param salt unique string of ascii characters for creating fixed-length password
      * @return hashed password that can be safely stored in a text file
      */
     public String hash(String password) {
