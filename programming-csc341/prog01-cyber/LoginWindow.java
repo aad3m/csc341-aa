@@ -5,11 +5,11 @@
  * copyrighted 2022
  */
 
- import java.awt.*;
- import javax.swing.*;
- import java.awt.event.ActionEvent;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
- 
+
  public class LoginWindow extends JFrame {
  
  	private Database db;
@@ -90,15 +90,19 @@ import java.awt.event.ActionListener;
             passwordField.setText("");
             System.out.println("ENTERED "+username+" "+password);
 
-            // TODO ************
             // Here is where you need to verify if the username+password are correct.
-            // Complete the valid function in database and call it here.
-
+            boolean isValid = db.valid(username, password);
             // If valid, say hello (using their first name)
 
-            // If not valid, clear the textfields and display a message.
-            // Here is an example of how to set the text in the window
-            // message.setText("Username and/or password does not match our records. Try again.");
+            if (isValid) {
+                String name = db.getStudent(username).name();
+                message.setText("Hello " + name + ", welcome back :)");
+            }
+
+            // If not valid, clear the text fields and display a message.
+            if (!isValid) {
+                message.setText("Username and/or password does not match our records. Try again :(");
+            }
 
         }
      } 
