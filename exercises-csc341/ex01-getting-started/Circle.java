@@ -26,7 +26,10 @@ public class Circle extends JPanel {
     /** Circels have random direction */
     private Random random = new Random();
 
-
+    /** Circle constructor sets color & radius
+     * @param c is the color of circle
+     * @param size is radius of circle
+     */
     public Circle(String c, Integer size) {
     
     	// set according user specifications

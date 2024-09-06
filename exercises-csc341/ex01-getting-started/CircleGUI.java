@@ -82,13 +82,13 @@ public class CircleGUI extends JFrame {
         	// if circle is moving then stop, else start moving.
         	if (moving) {
         		// change message: Push to Move
-        		playLabel.setText("Push button to move.");
+        		playLabel.setText("Push to go.");
         		moving = false;
         			
         	} else {
         		// change message: Push to play
         		moving = true;
-        		playLabel.setText("Push button to pause.");
+        		playLabel.setText("Push to pause.");
         	}
         } // end actionPerformed()
      } // end class EventHandler
