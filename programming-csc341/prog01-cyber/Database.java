@@ -35,16 +35,10 @@ public class Database {
 			if (cr.username().equals(username)){
 				// Hash password
 				String hashedPassword = hasher.hash(password);
-				if (cr.password().equals(hashedPassword)){
-					return true;
-				} else {
-					return false;
-				}
+                return cr.password().equals(hashedPassword);
 
 			}
 		}
-
-
 		return false;
 	}
 	
