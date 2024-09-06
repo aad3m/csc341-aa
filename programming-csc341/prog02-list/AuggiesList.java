@@ -2,10 +2,10 @@
 public class AuggiesList {
 
     /** Primitive structure for storing the collection of Auggies */
-    protected Auggie[] auggies;
+    private Auggie[] auggies;
 
     /** Default for maximum number of auggies that can be stored */
-    protected static final int DEFAULT_CAPACITY = 200;
+    private static final int DEFAULT_CAPACITY = 200;
 
     /** The number of auggies stored in the array. */
     private int size = 0;
