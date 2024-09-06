@@ -44,7 +44,6 @@ public class Database {
 	
 	/** Open users file and load contents into member variables. */
 	public void loadUsers() {
-		users = new ArrayList<>();
 
 		try {
 			// Open users.txt file
@@ -55,9 +54,9 @@ public class Database {
 				String data = scanner.nextLine();
 				String[] parts = data.split(",");
 				String username = parts[0];
-				String hashedPassword = parts[1];
+				String password = parts[1];
 				// Put each line into new Credentials
-				Credentials cr = new Credentials(username, hashedPassword);
+				Credentials cr = new Credentials(username, password);
 				// Store in users array
 				users.add(cr);
 			}
@@ -71,7 +70,6 @@ public class Database {
 	/** Open students file and load contents. */
 	public void loadStudents()
 	{
-		students = new ArrayList<>();
 		try {
 			// Open students.csv
 			File file = new File("students.csv");
@@ -88,6 +86,7 @@ public class Database {
 				LinkedList<String> courses = new LinkedList<>();
 				for (int i = 3; i < parts.length; i++) {
 					courses.add(parts[i]);
+
 			}
 			// Put each line into new Student
 				Student st = new Student(username, name, major, courses);
