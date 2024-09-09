@@ -3,9 +3,8 @@ public class Mallard extends Duck {
 
   /** Constructor */
   public Mallard(String name, String personality) {
-    name = name;
-    personality = personality;
+    super(name,personality);
     /** mallards are faster than most */
-    speed = 20;
+    speed(20);
   }
 }

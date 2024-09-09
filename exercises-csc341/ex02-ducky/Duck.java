@@ -24,8 +24,8 @@ public class Duck {
    * @param personality Duck's character
    */
   public Duck(String name, String personality) {
-    name = name;
-    personality = personality;
+    this.name = name;
+    this.personality = personality;
     System.out.println("Hi "+name+". You fly "+speed+" mph and say "+sound+".");
   }
 
