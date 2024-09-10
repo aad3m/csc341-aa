@@ -14,10 +14,13 @@ public class AuggiesList {
     //              CONSTRUCTORS
     // ____________________________________________________
 
-    /** 
+    /**
+     * Constructor with a set capacity for data
+     *
+     * @param capacity maximum number of Auggies that can be stored
      */
     public AuggiesList(int capacity) {
-        // TODO
+        auggies = new Auggie[capacity];
     }
 
     /** Default Constructor */
@@ -43,27 +46,30 @@ public class AuggiesList {
     // ____________________________________________________
 
     /**
+     * Determines whether there is capacity for more students
      *
+     * @return true or false
      */
     public boolean isFull() {
-        // TODO: fix this (can be 1 line of code) 
-        return false;
+        return size == auggies.length;
     }
 
     /**
+     * Determines whether there are any students in the List
      *
+     * @return true or false
      */
     public boolean isEmpty() {
-        // TODO: fix this (can be 1 line of code) 
-        return false;
+        return size == 0;
     }
 
     /**
+     * Determines if the given index corresponds to an element stored in the List
      *
+     * @return true or false
      */
     private boolean isValid(int index) {
-        // TODO: fix this (a few lines of code) 
-        return false;
+        return index >= 0 && index < size;
     }
 
 
@@ -72,54 +78,104 @@ public class AuggiesList {
     // ____________________________________________________
 
     /**
-    */
+     * Adds new Auggie to end of list if no exceptions are thrown
+     *
+     * @param auggie a student, faculty, or staff member
+     * @throws IllegalOperationException if list is full
+     */
     public void add(Auggie auggie) throws IllegalOperationException {
         // Default location for adding an auggie is at the end of the array
-        // TODO implement this method
-    } // end add(Auggie)
+        if (isFull()) {
+            throw new IllegalOperationException("List is full");
+        }
+        auggies[size] = auggie;
+        size++;
+
+    }
 
     /**
-    */
+     * Adds new Auggie to specified index if no exceptions are thrown while also
+     * shifting all other elements to the right
+     *
+     * @param auggie a student, faculty, or staff member
+     * @param index location of element in list
+     * @throws IllegalOperationException if list is full
+     * @throws ArrayIndexException if index is invalid
+     */
     public void add(Auggie auggie, int index) throws Exception {
-        // TODO: implement this method
-    } // end add(index,auggie)
+        if (isFull()) {
+            throw new IllegalOperationException("List is full");
+        }
+        if (!isValid(index)) {
+            throw new ArrayIndexException("Index is invalid");
+        }
+        for (int i = size; i > index; i--) {
+            auggies[i] = auggies[i - 1];
+        }
+        auggies[index] = auggie;
+        size++;
+    }
 
     // ____________________________________________________
     //                   SEARCH METHODS
     // ____________________________________________________
 
     /**
-    */
+     * Gets Auggie at specified index if no exceptions are thrown
+     *
+     * @param index location of element in list
+     * @throws ArrayIndexException if index is invalid
+     * @return element at that index
+     */
     public Auggie get(int index) throws ArrayIndexException {
-    	// TODO: implement this method
-        // Do not remove the Auggie, just return it
+        if (!isValid(index)){
+            throw new ArrayIndexException("Index is invalid");
+        }
+        return auggies[index];
+    }
 
-        return null;
-    } // end get()
-    
+    /**
+     * Find an Auggie in the list
+     *
+     * @param auggie a student, faculty, or staff member
+     * @return index for fount Auggie in list, -1 if not in list
+     */
     public int find(Auggie auggie) {
-		// TODO: implement this method
-		return -1;
-	}
+        for (int index = 0; index < size; index++)
+            if (auggies[index].equals(auggie)) {
+                return index;
+            }
+        return -1;
+    }
 
-    
+
     // ____________________________________________________
     //                   CONVERT METHODS
     // ____________________________________________________
 
     /**
-    */
+     * Creates an array equal to size if list is not empty and copy the contents to new array
+     *
+     * @throws IllegalOperationException if list is empty
+     * @return newAuggie is new list of Auggies
+     */
     public Auggie[] toArray() throws IllegalOperationException {
-        // TODO: implement this method
-        return null;
-    } // end toArray()
+        if (isEmpty()){
+            throw new IllegalOperationException("List is empty");
+        }
+        Auggie[] newAuggie = new Auggie[size];
+        for (int i = 0; i < size; i++) {
+            newAuggie[i] = auggies[i];
+        }
+        return newAuggie;
+    }
 
     // ____________________________________________________
     //                   SETTERS AND GETTERS
     // ____________________________________________________
 
     public int size() {
-    	return size;
+        return size;
     }
 
     public int capacity() {
@@ -127,3 +183,4 @@ public class AuggiesList {
     }
 
 } // end class List
+
