@@ -24,7 +24,7 @@ public class Vector {
 	@return length of the vector
 	*/
 	public double length() {
-		// sqrt((x-x)^2 + (y-y)^2)
+		// sqrt(x^2 + y^2)
 		return 0.0;
 	}
 	
