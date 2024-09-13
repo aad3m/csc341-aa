@@ -1,6 +1,8 @@
 import java.lang.reflect.*;
 import java.util.Scanner;
 import java.io.*;
+import java.lang.Math;
+
 
 
 public class TestVector extends Assert {
@@ -48,11 +50,12 @@ public class TestVector extends Assert {
 
 		System.out.println("______________________________________");
 		System.out.println("Testing Vector.length");
-		try{
-			Vector v = new Vector(2,3);
-			v.length();
-			assertEquals(math.sqrt(15),);
-		}
+        {
+            Vector v = new Vector(2,3);
+            v.length();
+            assertEquals(Math.sqrt(15), v.length(), .01, "Test failed for length");
+        }
+
 		// Test along x-axis
 		Vector v = new Vector();
 		assertEquals(5.0,v.length(),.01 ,"failed along x-axis");
