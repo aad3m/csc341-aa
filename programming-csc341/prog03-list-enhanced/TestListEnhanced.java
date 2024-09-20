@@ -1,7 +1,3 @@
-import java.lang.reflect.*;
-import java.util.Scanner;
-import java.io.*;
-
 public class TestListEnhanced extends Assert {
 
 	static Auggie s0 = AuggieFactory.makeAuggie("s00");
