@@ -245,7 +245,7 @@ public class AuggiesList {
         if (index == -1) {
             throw new IllegalOperationException("Auggie not found");
         }
-        return auggies[index] = a2;
+        auggies[index] = a2;
     }
 
 
