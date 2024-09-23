@@ -23,10 +23,12 @@ public class Square implements Comparable<Square> {
     }
 
     /* compareTo method */
+    @Override
     public int compareTo(Square s2) {
         int squareArea1 = this.width * this.height;
         int squareArea2 = s2.width * s2.height;
-        return squareArea1 - squareArea2;
+        int comparisonVal = squareArea1 - squareArea2;
+        return comparisonVal;
     }
 
 }
