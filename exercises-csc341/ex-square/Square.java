@@ -18,6 +18,7 @@ public class Square implements Comparable<Square> {
     }
 
     /* toString method */
+    @Override
     public String toString() {
         return "[ " + width + " x " + height + " ]";
     }
