@@ -2,6 +2,18 @@
 #### Due Thursday, October 3 end-of-day
 #### Submit a single zipped file to Moodle
 
+> Special Constraint: The resources that you can use to complete this assignment are:
+- Your assigned peer group
+- Dr. Larson
+- zyBooks
+- Knack tutor
+- Java official documentation
+- On the web: examples of Java sort methods, Comparator, and Comparable. Please site your resources.
+
+If you have another resource that you think would be useful, please ask Dr. Larson.
+
+<hr>
+
 In this programming assignment, you will continue your implementation of a List using an array. The primary difference is that the sorted order of the List must be maintained. Furthermore, to make search more efficient, you will be implementing Binary Search to locate an element in the list. 
 
 Learning Outcomes:
