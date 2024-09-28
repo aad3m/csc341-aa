@@ -5,7 +5,7 @@ import java.util.Random;
 * Record of individual associated with Augsburg. 
 * Can be Student, Staff, or Faculty.
 */
-public class Auggie {
+public class Auggie implements Comparable<Auggie> {
 	/** username and email address */
     private String username;
     
@@ -57,6 +57,11 @@ public class Auggie {
     	// usernames are unique, so this should be sufficient to test equivalency
     	return username.equals(aug.username);
     }
+
+	@Override
+	public int compareTo(Auggie other) {
+		return username.compareTo(other.username);
+	}
     
     // Setters and Getters 
     

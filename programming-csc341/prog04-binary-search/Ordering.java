@@ -5,13 +5,30 @@ public class Ordering {
 	// Define a comparator orderName that establishes an ordering
 	// for Auggies based on their last name with the first name as tie-breaker.
 	// Be sure to declare orderName as public static!
-	// TODO	
-
+	public static Comparator<Auggie> orderName = new Comparator<Auggie>() {
+		@Override
+		public int compare(Auggie a1, Auggie a2) {
+			if (a1.last().compareTo(a2.last()) == 0) {
+				return a1.last().compareTo(a2.last());
+			} else {
+				return a1.first().compareTo(a2.first());
+			}
+		}
+	};
 	
 	// Define a comparator orderRole that establishes an ordering
 	// for Auggies based on their role with the username as a tie-breaker.
 	// Be sure to declare orderRole as public static!	
-	// TODO
+	public static Comparator<Auggie> orderRole = new Comparator<Auggie>() {
+		@Override
+		public int compare(Auggie a1, Auggie a2) {
+			if (a1.role().compareTo(a2.role()) == 0) {
+				return a1.role().compareTo(a2.role());
+			} else {
+			return a1.username().compareTo(a2.username());
+			}
+		}
+	};
 
 
 	
@@ -47,7 +64,7 @@ public class Ordering {
 		
 		// Sort using the Collections.sort method for an ArrayList
 		// this will use the Auggie.compareTo method for ordering
-		// TODO
+		Collections.sort(auggies);
 		
 		System.out.println("\nNow they should be in username order");
 		for (Auggie a: auggies) {
@@ -55,7 +72,7 @@ public class Ordering {
 		}
 		
 		// Sort using the .sort() for ArrayList with orderName as the argument.
-		// TODO
+		Collections.sort(auggies, orderName);
 		
 		System.out.println("\nNow they should be in last, first order");
 		for (Auggie a: auggies) {
@@ -63,7 +80,7 @@ public class Ordering {
 		}	
 		
 		// Sort using the .sort() for ArrayList with orderRole as the argument.
-		// TODO
+		Collections.sort(auggies, orderRole);
 		
 		System.out.println("\nNow they should be in role, username order");
 		for (Auggie a: auggies) {
