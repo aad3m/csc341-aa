@@ -106,6 +106,9 @@ public class AuggiesList {
         if (isFull()) {
             throw new IllegalOperationException("List is full");
         }
+        else {
+            if () {}
+        }
         auggies[size] = auggie;
         size++;
 
