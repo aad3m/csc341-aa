@@ -9,9 +9,9 @@ public class Ordering {
 		@Override
 		public int compare(Auggie a1, Auggie a2) {
 			if (a1.last().compareTo(a2.last()) == 0) {
-				return a1.last().compareTo(a2.last());
-			} else {
 				return a1.first().compareTo(a2.first());
+			} else {
+				return a1.last().compareTo(a2.last());
 			}
 		}
 	};
@@ -23,9 +23,9 @@ public class Ordering {
 		@Override
 		public int compare(Auggie a1, Auggie a2) {
 			if (a1.role().compareTo(a2.role()) == 0) {
-				return a1.role().compareTo(a2.role());
+				return a1.username().compareTo(a2.username());
 			} else {
-			return a1.username().compareTo(a2.username());
+			return a1.role().compareTo(a2.role());
 			}
 		}
 	};
