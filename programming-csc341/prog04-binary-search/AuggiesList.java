@@ -21,7 +21,8 @@ public class AuggiesList {
     private int size = 0;
 
     AuggiesList(Comparator<Auggie> ordering) {
-        this.auggies = new Auggie[DEFAULT_CAPACITY];
+        this();
+        this.orderBy = ordering;
     }
     AuggiesList(Comparator<Auggie> ordering, int capacity) {
         this.auggies = new Auggie[capacity];
@@ -96,22 +97,22 @@ public class AuggiesList {
     // ____________________________________________________
 
     /**
-     * Adds new Auggie to end of list if no exceptions are thrown
+     * Adds new Auggie to list based on order
      *
      * @param auggie a student, faculty, or staff member
      * @throws IllegalOperationException if list is full
      */
     public void add(Auggie auggie) throws IllegalOperationException {
-        // Default location for adding an auggie is at the end of the array
         if (isFull()) {
             throw new IllegalOperationException("List is full");
         }
-        else {
-            if () {}
+        int i = size - 1;
+        while (i >= 0 && orderBy.compare(auggies[i], auggie) > 0) {
+            auggies[i + 1] = auggies[i];
+            i--;
         }
-        auggies[size] = auggie;
+        auggies[i + 1] = auggie;
         size++;
-
     }
 
     /**
@@ -228,16 +229,17 @@ public class AuggiesList {
     }
 
     /**
-     * Find an Auggie in the list
+     * Find an Auggie in the list using binary search
      *
      * @param auggie a student, faculty, or staff member
      * @return index for fount Auggie in list, -1 if not in list
      */
     public int find(Auggie auggie) {
-        for (int index = 0; index < size; index++)
-            if (auggies[index].equals(auggie)) {
+        for (int index = 0; index < size; index++) {
+            if (orderBy.compare(auggies[index], auggie) == 0) {
                 return index;
             }
+        }
         return -1;
     }
 
@@ -326,6 +328,31 @@ public class AuggiesList {
             sublist[i - start] = auggies[i];
         }
         return sublist;
+    }
+
+    /**
+     * Creates a sublist from beginning Auggie to last
+     *
+     * @param astart first Auggie in sublist
+     * @param aend last Auggie in sublist
+     * @return sublist with or without Auggies
+     */
+    public Auggie[] sublist(Auggie astart, Auggie aend) throws Exception {
+        // Set start and end to first and last index
+        int start = 0;
+        int end = size - 1;
+
+        // Find the first and last index of the sublist
+        while (start < size && orderBy.compare(auggies[start], astart) <= 0) {
+            start++;
+        }
+        while (end >= 0 && orderBy.compare(auggies[end], aend) >= 0) {
+            end--;
+        }
+        if (start > end) {
+            return new Auggie[0];
+        }
+        return sublist(start, end);
     }
 
     // ____________________________________________________
