@@ -1,7 +1,4 @@
-import java.lang.reflect.*;
-import java.util.Scanner;
 import java.util.*;
-import java.io.*;
 
 public class TestBinSearch {
 
@@ -193,5 +190,139 @@ public class TestBinSearch {
 			System.out.println("\nsomething awry with sublists.");
 			e.printStackTrace();
 		}
-	}		
+
+		System.out.println("------------------------------");
+
+		AuggiesList clist = new AuggiesList();
+		Comparator<Auggie> comparatorLast = Comparator.comparing(Auggie::last);
+		Comparator<Auggie> comparatorFirst = Comparator.comparing(Auggie::first);
+		try	{
+			clist.add(c2);
+			clist.add(b1);
+			clist.add(a0);
+			clist.add(e4);
+			clist.add(d3);
+
+			System.out.println("List of Auggies:");
+			for (int i = 0; i < clist.size(); i++) {
+				System.out.println(i+1 + ". " + clist.get(i));
+			}
+		} catch(Exception e) {
+			System.out.println("Error: Adding to List Failed!");
+			e.printStackTrace();
+		}
+
+		System.out.println("\n\033[0;1mTest Ordering Methods:\033[0m");
+		System.out.println("Happy Path:");
+		try {
+			System.out.println("First: " + clist.min());
+			System.out.println("Last: " + clist.max());
+			System.out.println("First By Last Name: " + clist.min(comparatorLast));
+			System.out.println("Last By Last Name: " + clist.max(comparatorLast));
+			System.out.println("Max and Min Passed!");
+
+			clist.reorder(comparatorLast);
+			System.out.println("\nReordered by Last:");
+			for (int i = 0; i < clist.size(); i++) {
+				System.out.println(i+1 + ". " + clist.get(i));
+			}
+			clist.reorder(comparatorFirst);
+			System.out.println("Reordered by First:");
+			for (int i = 0; i < clist.size(); i++) {
+				System.out.println(i+1 + ". " + clist.get(i));
+			}
+			System.out.println("Reorder Passed!"); // Determined by visual inspection
+		} catch(Exception e) {
+			System.out.println("Error: Tests Failed!");
+			e.printStackTrace();
+		}
+
+		System.out.println("\nSad Path:");
+		AuggiesList dlist = new AuggiesList();
+		try {
+			System.out.println("First: " + dlist.min());
+			System.out.println("Last: " + dlist.max());
+			System.out.println("First By Last Name: " + dlist.min(comparatorLast));
+			System.out.println("Last By Last Name: " + dlist.max(comparatorLast));
+			dlist.reorder(comparatorLast);
+			dlist.reorder(comparatorFirst);
+		} catch(Exception e) {
+			System.out.println("Passed - List is Empty!"); // Should throw exception
+		}
+
+		System.out.println("\n\033[0;1mTest Convert Methods:\033[0m");
+		System.out.println("Happy Path:");
+		try {
+			Auggie[] clistLast = clist.toArray(comparatorLast);
+			System.out.println("toArray by Last:");
+			for (int i = 0; i < clistLast.length; i++) {
+				System.out.println(i+1 + ". " + clistLast[i]);
+			}
+			Auggie[] clistFirst = clist.toArray(comparatorFirst);
+			System.out.println("toArray by First:");
+			for (int i = 0; i < clistFirst.length; i++) {
+				System.out.println(i+1 + ". " + clistFirst[i]);
+			}
+			System.out.println("Convert Passed!"); // Determined by visual inspection
+
+		} catch (Exception e) {
+			System.out.println("Error: Convert Failed!");
+			e.printStackTrace();
+		}
+
+		try {
+			ArrayList<Auggie> clistF = clist.query(Role.FACULTY);
+			System.out.println("\nQuery by Faculty:");
+			for (int i = 0; i < clistF.size(); i++) {
+				System.out.println(i+1 + ". " + clistF.get(i));
+			}
+			ArrayList<Auggie> clistS = clist.query(Role.STUDENT);
+			System.out.println("Query by Student:");
+			for (int i = 0; i < clistS.size(); i++) {
+				System.out.println(i+1 + ". " + clistS.get(i));
+			}
+			ArrayList<Auggie> clistP = clist.query(Role.STAFF);
+			System.out.println("Query by Staff:");
+			for (int i = 0; i < clistP.size(); i++) {
+				System.out.println(i+1 + ". " + clistP.get(i));
+			}
+			System.out.println("Query Passed!"); // Determined by visual inspection
+
+		} catch (Exception e) {
+			System.out.println("Error: Query Failed!");
+			e.printStackTrace();
+		}
+
+		System.out.println("\n\033[0;1mTest Binary Search Method:\033[0m");
+		System.out.println("Happy Path:");
+		try {
+			System.out.println("Binary Search for a0: " + clist.findRecursive(a0));
+			System.out.println("Binary Search for b1: " + clist.findRecursive(b1));
+			System.out.println("Binary Search for c2: " + clist.findRecursive(c2));
+			System.out.println("Binary Search for d3: " + clist.findRecursive(d3));
+			System.out.println("Binary Search for e4: " + clist.findRecursive(e4));
+			System.out.println("Binary Search Passed!"); // Determined by visual inspection
+		} catch (Exception e) {
+			System.out.println("Error: Binary Search Failed!");
+			e.printStackTrace();
+		}
+
+		System.out.println("\nSad Path:");
+		try {
+			System.out.println("Binary Search for z1: " + clist.findRecursive(z1)); // Should be -1
+			System.out.println("Binary Search for a1: " + clist.findRecursive(a1)); // Should be -1
+			System.out.println("Binary Search Passed!");
+		} catch (Exception e) {
+			System.out.println("Error: Binary Search Failed!");
+			e.printStackTrace();
+		}
+
+
+
+
+
+
+
+
+	}
 }

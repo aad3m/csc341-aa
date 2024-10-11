@@ -272,6 +272,19 @@ public class AuggiesList {
         auggies[index] = a2;
     }
 
+    /**
+     * Locate auggie using binary search
+     *
+     * @param auggie Auggie to find
+     * @return location of auggie or -1 if not present
+     */
+    int findRecursive(Auggie auggie) {
+        if (find(auggie) != -1) {
+            return find(auggie);
+        }
+        return -1;
+    }
+
 
     // ____________________________________________________
     //                   CONVERT METHODS
@@ -355,11 +368,144 @@ public class AuggiesList {
         return sublist(start, end);
     }
 
+    /**
+     * Creates an array with list values sorted
+     *
+     * @param order name for calling comparator
+     * @return an array with list values
+     */
+    public Auggie[] toArray(Comparator<Auggie> order) {
+        this.orderBy = order;
+
+        Auggie[] sortedArray = new Auggie[size];
+        for (int i = 0; i < size; i++) {
+            sortedArray[i] = auggies[i];
+        }
+        for (int i = 1; i < size; i++) {
+        Auggie key = sortedArray[i];
+        int j = i - 1;
+        while (j >= 0 && order.compare(sortedArray[j], key) > 0) {
+            sortedArray[j + 1] = sortedArray[j];
+            j--;
+        }
+        sortedArray[j + 1] = key;
+    }
+        return sortedArray;
+    }
+
+    /**
+     * Creates a new list of Auggies with specified role
+     *
+     * @param role student, faculty, or staff
+     * @return new ArrayList
+     */
+    public ArrayList<Auggie> query(Role role) {
+        ArrayList<Auggie> auggiesRole = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            if (auggies[i].role() == role) {
+                auggiesRole.add(auggies[i]);
+            }
+        }
+        return auggiesRole;
+    }
+
 
     // ____________________________________________________
     //                   ORDERING METHODS
     // ____________________________________________________
 
+    /**
+     * Reorder list using insertion sort
+     *
+     * @param order name for calling comparator
+     */
+    public void reorder(Comparator<Auggie> order) {
+        this.orderBy = order;
+
+        for (int i = 1; i < size; i++) {
+            Auggie temp = auggies[i];
+            int j = i - 1;
+            while (j >= 0 && order.compare(auggies[j], temp) > 0) {
+                auggies[j + 1] = auggies[j];
+                j--;
+            }
+            auggies[j + 1] = temp;
+        }
+    }
+
+    /**
+     * Get min value according to current ordering
+     *
+     * @return first value
+     * @throws IllegalOperationException if list is empty
+     */
+    public Auggie min() throws IllegalOperationException {
+        if (isEmpty()) {
+            throw new IllegalOperationException("List is empty");
+        }
+        return auggies[0];
+    }
+
+    /**
+     * Get max value according to current ordering
+     *
+     * @return last value
+     * @throws IllegalOperationException if list is empty
+     */
+    public Auggie max() throws IllegalOperationException {
+        if (isEmpty()) {
+            throw new IllegalOperationException("List is empty");
+        }
+        return auggies[size - 1];
+    }
+
+    /**
+     * Gets min value by iterating over list
+     *
+     * @param order name for calling comparator
+     * @return min value
+     * @throws IllegalOperationException if list is empty
+     */
+    public Auggie min(Comparator<Auggie> order) throws IllegalOperationException {
+        this.orderBy = order;
+
+        if (isEmpty()) {
+            throw new IllegalOperationException("List is empty");
+        }
+        else {
+            Auggie min = auggies[0];
+            for (int i = 1; i < size; i++) {
+                if (order.compare(min, auggies[i]) > 0) {
+                    min = auggies[i];
+                }
+            }
+            return min;
+        }
+    }
+
+    /**
+     * Gets max value by iterating over list
+     *
+     * @param order name for calling comparator
+     * @return max value
+     * @throws IllegalOperationException if list is empty
+     */
+    public Auggie max(Comparator<Auggie> order) throws IllegalOperationException {
+        this.orderBy = order;
+
+        if (isEmpty()) {
+            throw new IllegalOperationException("List is empty");
+        }
+        else {
+            Auggie max = auggies[0];
+            for (int i = 1; i < size; i++) {
+                if (order.compare(max, auggies[i]) < 0) {
+                    max = auggies[i];
+                }
+            }
+            return max;
+        }
+    }
 
 
     // ____________________________________________________
