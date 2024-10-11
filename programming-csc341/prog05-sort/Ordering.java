@@ -86,6 +86,7 @@ public class Ordering {
 		for (Auggie a: auggies) {
 			System.out.println(a);
 		}
-	
+
+
 	}
 }
