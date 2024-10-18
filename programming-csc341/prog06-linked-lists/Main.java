@@ -44,9 +44,17 @@ public class Main {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		try {
+			println(alist.get(0));
+			println(alist.get(1));
+			println(alist.get(2));
+			println(alist.get(3));
+		} catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
 			println("Head "+alist.peekFirst().toString());
 			println("Tail "+alist.peekLast().toString());
 			println("\nRemoving "+(alist.remove(5)).toString());
@@ -58,14 +66,24 @@ public class Main {
 		}
 		
 		try {
-			AuggiesList blist = new AuggiesList();
-			Auggie[] array = blist.toArray();
+			Auggie[] array = alist.toArray();
 			for (Auggie a : array) {
 				System.out.println(a);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+
+		try {
+			alist.remove(a1);
+			alist.remove(a3);
+			println(alist);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+
 	}
 	
 	public static void println(Object o) {
