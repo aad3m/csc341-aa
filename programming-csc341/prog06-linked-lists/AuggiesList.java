@@ -47,8 +47,16 @@ public class AuggiesList {
 
     @Override
     public String toString() {
-        // TODO 
-        return "";   
+        StringBuilder sb = new StringBuilder(); // Use string builder
+        int i = 1;
+        Node temp = head;
+        while (temp != null) { // Go through entire list
+            sb.append(i).append(". "); // Append current index
+            sb.append(temp.value).append("\n"); // Append current node value
+            temp = temp.next;
+            i++;
+        }
+        return sb.toString();
     }
 
     // ____________________________________________________
@@ -57,8 +65,7 @@ public class AuggiesList {
 
     /** Reports status of List. */
     public boolean isEmpty() {
-    	// TODO
-        return true;
+        return size == 0;
     }
 
     /**
@@ -66,8 +73,7 @@ public class AuggiesList {
     * @return true if in bounds, false otherwise
     */
     private boolean isValid(int index) {
-    	// TODO
-        return false;
+        return index >= 0 && index < size;
     }
 
     // ____________________________________________________
@@ -79,6 +85,15 @@ public class AuggiesList {
     * @param auggie item to be added to the List.
     */
     public void add(Auggie auggie) {
+        Node node = new Node(auggie); // Create new node
+        if (isEmpty()) {
+            head = node;
+            tail = node;
+        } else {
+            tail.next = node; // Add new node to end
+            tail = node;
+        }
+        size++; // Update size of list
 
     } // end add(auggie)
 
@@ -90,6 +105,29 @@ public class AuggiesList {
     * @throws ArrayIndexException if index is out of bounds.
     */
     public void add(Auggie auggie, int index) throws ArrayIndexException {
+        if (!isValid(index)) {
+            throw new ArrayIndexException("Index out of bounds");
+        }
+        Node node = new Node(auggie);
+        if (index == 0) { // Place at start if index 0
+            head = node;
+            if (size == 0) { // Checks if list is also empty
+                tail = node;
+            }
+        } else {
+            Node temp = head;
+            for (int i = 0; i < index; i++) {
+                temp = temp.next; // Go to node before specified index
+            }
+            node.next = temp.next;
+            temp.next = node;
+
+            if (node.next == null) { // Check if node is added at end
+                tail = node;
+            }
+
+        }
+        size++; // Update size of list
 
     } // end add(auggie,index)
 
@@ -132,8 +170,14 @@ public class AuggiesList {
     * @throws ArrayIndexException if index is out of bounds.
     */
     public Auggie get(int index) throws ArrayIndexException {
-        
-        return null;
+        if (!isValid(index)) {
+            throw new ArrayIndexException("Index out of bounds");
+        }
+        Node temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.next; // Go to specified index
+        }
+        return temp.value;
         
     } // end get(index)
 
@@ -146,10 +190,19 @@ public class AuggiesList {
     * @return location (0-based) of item, or -1 if not in list
     */
     public int find(Auggie auggie) {
+        Node temp = head;
+        int index = 0;
+        while (temp != null) { // Search list until node is found
+            if (temp.value == auggie) {
+                return index;
+            }
+            temp = temp.next;
+            index++;
+        }
 
         return -1;
         
-    } // end locate(auggie)
+    } // end find(auggie)
 
     // ____________________________________________________
     //                   REMOVE METHODS
@@ -162,8 +215,27 @@ public class AuggiesList {
     * @throws IllegalOperationException if auggie is not in the list
     */
     public void remove(Auggie auggie) throws IllegalOperationException {
-
-        // do NOT call the locate method here -- it is inefficient
+        if (head.value == auggie) { // If node to remove is the head
+            head = head.next;
+            size--;
+            if (size == 0) { // Check if list is empty
+                tail = null;
+            }
+            return; // Exit when fount
+        }
+        Node temp = head;
+        while (temp.next != null) {
+            if (temp.next.value == auggie) { // If auggie is fount
+                temp.next = temp.next.next;
+                size--; // Decrease list size
+                if (temp.next == null) { // Checks if next value is null
+                    tail = temp;
+                }
+                return; // Exit when fount
+            }
+            temp = temp.next;
+        }
+        throw new IllegalOperationException("Auggie not found in the list");
 
     } // end remove(auggie)
 
@@ -175,8 +247,30 @@ public class AuggiesList {
     * @throws ArrayIndexException if index out of bounds
     */
     public Auggie remove(int index) throws ArrayIndexException {
-       
-       return null;
+       if (!isValid(index)) {
+           throw new ArrayIndexException("Index out of bounds");
+       }
+       Auggie removedAuggie; // Create variable to hold removedAuggie
+       if (index == 0) { // If node to remove is the head
+           removedAuggie = head.value;
+           head = head.next;
+           size--; // Decrease list size
+           if (size == 0) { // Checks if list is empty
+               tail = null;
+           }
+           return removedAuggie;
+       }
+       Node temp = head;
+       for (int i = 0; i < index - 1; i++) { // Go to one before node to remove
+           temp = temp.next;
+       }
+       removedAuggie = temp.next.value;
+       temp.next = temp.next.next;
+       if (temp.next == null) { // Checks if next value is null
+           tail = temp;
+       }
+       size--;
+       return removedAuggie;
        
     } // end remove(index)
 
@@ -191,8 +285,18 @@ public class AuggiesList {
     * @throws IllegalOperationException if the List is empty
     */
     public Auggie[] toArray() throws IllegalOperationException {
-    	
-        return null;
+        if (isEmpty()) {
+            throw new IllegalOperationException("List is empty");
+        }
+
+        Auggie[] auggies = new Auggie[size]; // Create new Auggie array with same size
+        Node temp = head;
+        for (int i = 0; i < size; i++) { // Go through list & copy each to new auggies
+            auggies[i] = temp.value;
+            temp = temp.next;
+        }
+        return auggies;
+
     } // end toArray
     
      // ____________________________________________________
