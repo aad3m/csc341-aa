@@ -137,9 +137,9 @@ class SimpleList {
     /**
     * Find ALL Simple objects in the List whose alpha matches specified value.
     * @param alpha value to match for elements in the List.
-    * @return All matching simple objects with matching value stored in a basic array. If nothing matches, returns null.
+    * @return All matching simple objects with matching value. If nothing matches, returns empty ArrayList.
     */
-    public Simple[] query(String alpha) {
+    public ArrayList<Simple> query(String alpha) {
     	// TODO ...
     	// Need to use recursion.
     	return null;
