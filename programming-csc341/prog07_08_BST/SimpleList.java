@@ -172,7 +172,7 @@ class SimpleList {
     /**
     * Find ALL Simple objects in the List whose alpha matches specified value.
     * @param alpha value to match for elements in the List.
-    * @return All matching simple objects with matching value. If nothing matches, returns an empty ArrayList.
+    * @return All matching simple objects with matching value. If nothing matches, returns empty ArrayList.
     */
     public ArrayList<Simple> query(String alpha) {
     	// TODO ...
