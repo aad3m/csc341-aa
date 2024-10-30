@@ -67,12 +67,11 @@ class SimpleList {
     * @return Height of the tree
     * @throws IllegalOperationException if tree is empty.
     */
-    public int height() {
-    	// NOTE that this should be a private method because it is related
-    	// to the implementation. However, for testing purposes, this is public.
-    	// TODO ...
-    	
-    	return 0;
+    public int height() throws IllegalOperationException {
+        if (empty()) {
+        	throw new IllegalOperationException("Tree is empty");
+        }
+        return root.height;
     }
 
     // ________________________________________________________________
@@ -89,6 +88,42 @@ class SimpleList {
     	// 1) The left and right child of the new node should be the dummy node (the same dummy node is used for ALL leaf nodes).
     	// 2) The depth should be set once the node is added.
     	// 3) After the node is added, call adjustHeight(new node).
+
+        Node n = new Node(simple);
+        if (empty()) {
+        	root = n;
+            root.depth = 0;
+            adjustHeight(n);
+        }
+        else {
+            Node current = root;
+            Node parent;
+            while (true) {
+                if (current.value.compareTo(n.value) > 0) {
+                    current = current.left;
+                    parent = current;
+                    if (current == dummy) {
+                        parent.left = n;
+                        adjustHeight(n);
+                        break;
+                    }
+                if (current.value.compareTo(n.value) < 0) {
+                    current = current.right;
+                    current.depth++;
+                    if (current == dummy) {
+                        current = n;
+                        adjustHeight(current);
+                        break;
+                    }
+                }
+
+                }
+
+            }
+
+        }
+
+
     }
     
     // Helper function to adjust height of nodes (as is appropriate)
