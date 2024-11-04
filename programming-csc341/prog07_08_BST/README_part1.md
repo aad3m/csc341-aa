@@ -1,4 +1,4 @@
-## Programming Assigment 7 - Binary Search Trees Part I
+## Programming Assigment 7 - Binary Search Trees Part I and Part II
 
 <hr>
 
