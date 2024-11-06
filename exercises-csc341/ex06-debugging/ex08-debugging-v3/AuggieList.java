@@ -64,6 +64,7 @@ public class AuggieList {
         		i--;
         }
         auggies[i+1] = auggie;
+		count++;
     }
 
     public void addAll(Auggie[] array) throws IllegalOperationException {
