@@ -46,15 +46,27 @@ class SimpleList {
         ordering = order;
     }
 
+    private boolean balanced = true;
+
     // ________________________________________________________________
     //                HELPERS
     // _________________________________________________________________
 
     @Override
     public String toString() {
-    	// TODO ... You have to use recursion
-        return null;
-
+    	StringBuilder sb = new StringBuilder();
+        toString(root, sb);
+        return sb.toString();
+    }
+    private void toString(Node n, StringBuilder sb) {
+        // Base case
+    	if (n == dummy) {
+    		return;
+    	}
+        // Recursively process left & right subtree
+    	toString(n.left, sb);
+    	sb.append(n.value).append(" ");
+    	toString(n.right, sb);
     }
     
     /** Return true if the list has no elements, false otherwise. */
@@ -68,84 +80,227 @@ class SimpleList {
     * @throws IllegalOperationException if tree is empty.
     */
     public int height() throws IllegalOperationException {
-        if (empty()) {
+        if (root == null) {
         	throw new IllegalOperationException("Tree is empty");
         }
         return root.height;
     }
 
+    /**
+     * Find the node that contains the specified value
+     * @param n node to start the search from
+     * @param alpha value to search for
+     * @param result node that contains the specified value
+     */
+    private void query(Node n, String alpha, ArrayList<Simple> result) {
+        // Base case
+        if (n == dummy) {
+            return;
+        }
+        // Recursively search left subtree
+        query(n.left, alpha, result);
+        // Check current node
+        if (n.value.alpha().equals(alpha)) {
+            result.add(n.value);
+        }
+        // Recursively search right subtree
+        query(n.right, alpha, result);
+    }
+
+    /**
+     * Find the node that contains the specified value
+     * @param n node to start the search from
+     * @param number value to search for
+     * @return node that contains the specified value
+     */
+    private Simple findFirst(Node n, Integer number) {
+        // Base case
+    	if (n == dummy) {
+    		return null;
+    	}
+        // Recursively search left subtree
+    	Simple left = findFirst(n.left, number);
+        if (left != null) {
+            return left;
+        }
+        // Check current node
+        if (n.value.number().equals(number)) {
+            return n.value;
+        }
+        // Recursively search right subtree
+        return findFirst(n.right, number);
+    }
+
+    /**
+     * Find the node that contains the specified value
+     * @param n node to start the search from
+     * @param array array to store the values in
+     * @param index index to start storing the values at
+     * @return index to start storing the values at
+     */
+    private int toArray(Node n, Simple[] array, int index) {
+        // Base case
+        if (n == dummy) {
+            return index;
+        }
+        // Recursively process left subtree
+        index = toArray(n.left, array, index);
+        // Add current node to array
+        array[index] = n.value;
+        index++;
+        // Recursively process right subtree
+        return toArray(n.right, array, index);
+    }
+
+    public boolean balanced() {
+        return balanced;
+    }
+
+    /**
+     * This is a helper function that is called when the tree is unbalanced.
+     */
+    private void balance() {
+        // Convert tree to array
+        Simple[] array = toArray();
+        root = null;
+        count = 0;
+        balanced = true;
+        // Rebuild tree
+        for (Simple s : array) {
+            add(s);
+        }
+    }
+
+    /**
+     * Find the specified node in the tree
+     * @param value value to search for
+     * @return node that contains the specified value
+     */
+    private Node findNode(Simple value) {
+        Node current = root;
+        // Traverse tree to find specified object
+        while (current != dummy) {
+            int compare = ordering.compare(value, current.value);
+            if (compare < 0) {
+                current = current.left;
+            } else if (compare > 0) {
+                current = current.right;
+            } else {
+                return current;
+            }
+        }
+        // If specified object not found, return false
+        return null;
+    }
+
+
     // ________________________________________________________________
     //                ADD
     // _________________________________________________________________
-  
-  	/** 
+
+  	/**
   	* Add the specified element to the list.
   	* @param simple Element to add to the list (in order)
   	*/
     public void add(Simple simple) {
-    	// TODO ... (clean this up after you are done coding!)
-    	// Things to note ...
-    	// 1) The left and right child of the new node should be the dummy node (the same dummy node is used for ALL leaf nodes).
-    	// 2) The depth should be set once the node is added.
-    	// 3) After the node is added, call adjustHeight(new node).
-
         Node n = new Node(simple);
-        if (empty()) {
+
+        // If tree is empty, set root to new node
+        if (root == null) {
         	root = n;
             root.depth = 0;
-            adjustHeight(n);
+            adjustHeight(root);
+            return;
         }
-        else {
-            Node current = root;
-            Node parent;
-            while (true) {
-                if (current.value.compareTo(n.value) > 0) {
-                    current = current.left;
-                    parent = current;
-                    if (current == dummy) {
-                        parent.left = n;
-                        adjustHeight(n);
-                        break;
-                    }
-                if (current.value.compareTo(n.value) < 0) {
-                    current = current.right;
-                    current.depth++;
-                    if (current == dummy) {
-                        current = n;
-                        adjustHeight(current);
-                        break;
-                    }
-                }
+        Node current = root;
+        Node parent;
 
+        // Traverse tree to find insertion point
+        while (current != dummy) {
+        parent = current;
+            // Compare new node to current node
+            if (ordering.compare(n.value, current.value) < 0) {
+                current = current.left;
+                // If left child is dummy node, insert new node
+                if (current == dummy) {
+                    parent.left = n;
+                    n.parent = parent;
+                    n.depth = parent.depth + 1;
+                    adjustHeight(n);
+                    break;
                 }
-
+            } else {
+                current = current.right;
+                // If right child is dummy node, insert new node
+                if (current == dummy) {
+                    parent.right = n;
+                    n.parent = parent;
+                    n.depth = parent.depth + 1;
+                    adjustHeight(n);
+                    break;
+                }
             }
-
+            if (!balanced) {
+                balance();
+            }
         }
-
-
     }
-    
+
     // Helper function to adjust height of nodes (as is appropriate)
     private void adjustHeight(Node n) {
-    	// TODO ...
-    	// NOTE: traverse the tree back towards the root. 
-    	// Only traverse as far as necessary - stop once height is not changed.
-    
+        // Base case
+        if (n == dummy) {
+            return;
+        }
+        // Calculate height of left & right children
+        int leftHeight;
+        if (n.left != dummy) {
+            leftHeight = n.left.height;
+        } else {
+            leftHeight = -1;
+        }
+
+        int rightHeight;
+        if (n.right != dummy) {
+            rightHeight = n.right.height;
+        } else {
+            rightHeight = -1;
+        }
+        // Set height of current node
+        n.height = Math.max(leftHeight, rightHeight) + 1;
+
+        if (Math.abs(leftHeight - rightHeight) > 12) {
+            balanced = false;
+        }
+
+        if (n.parent != null) {
+            adjustHeight(n.parent);
+        }
     }
 
     // ________________________________________________________________
     //                SEARCH
     // _________________________________________________________________
-    
+
     /**
     * Determine if specified object is in the List.
     * @param simple Object searching for in list.
     * @return true if specified object is in list, false otherwise
     */
     public boolean contains(Simple simple) {
-    	// TODO .. Use BINARY SEARCH (iterative or recursive)
-    
+    	Node current = root;
+        // Traverse tree to find specified object
+        while (current != dummy) {
+            int compare = ordering.compare(simple, current.value);
+            if (compare < 0) {
+                current = current.left;
+            } else if (compare > 0) {
+            current = current.right;
+            } else {
+                return true;
+            }
+        }
+        // If specified object not found, return false
         return false;
     }
 
@@ -154,9 +309,16 @@ class SimpleList {
     * @return Minimum value (based on ordering) of the List.
     * @throws IllegalOperationException if list is empty.
     */
-    public Simple min() {
-    	// TODO .. traverse to the location of the minimum value!
-        return null;
+    public Simple min() throws IllegalOperationException {
+    	if (empty()) {
+            throw new IllegalOperationException("Tree is empty");
+        }
+        Node current = root;
+        // Traverse tree to find minimum value
+        while (current.left != dummy) {
+            current = current.left;
+        }
+        return current.value;
     }
 
     /**
@@ -164,54 +326,134 @@ class SimpleList {
     * @return Maximum value (based on ordering) of the List.
     * @throws IllegalOperationException if list is empty.
     */
-    public Simple max() {
-    	// TODO .. traverse to the location of the maximum value.
-        return null;
+    public Simple max() throws IllegalOperationException {
+    	if (empty()) {
+            throw new IllegalOperationException("Tree is empty");
+        }
+        Node current = root;
+        // Traverse tree to find maximum value
+        while (current.right != dummy) {
+            current = current.right;
+        }
+        return current.value;
     }
-    
+
     /**
     * Find ALL Simple objects in the List whose alpha matches specified value.
     * @param alpha value to match for elements in the List.
     * @return All matching simple objects with matching value. If nothing matches, returns empty ArrayList.
     */
     public ArrayList<Simple> query(String alpha) {
-    	// TODO ...
-    	// Need to use recursion.
-    	return null;
+    	ArrayList<Simple> result = new ArrayList<>();
+        query(root, alpha, result);
+        return result;
     }
-        
-    /** 
+
+    /**
     * Find the first Simple object whose number matches specified value.
     * @param number Value to match for elements in the List.
     * @return First matching value in List (based on ordering), null if no match
     */
     public Simple findFirst(Integer number) {
-    	// TODO ...
-    	// Think carefully about this!!
-    	// It must return the first occurence based on ordering (ie. tree order)
-    	// Need to use recursion (similar to toString)
-    	// This is extra challenging.
-    	return null;
+    	return findFirst(root, number);
     }
-    
+
     // ________________________________________________________________
     //                CONVERT
     // _________________________________________________________________
-        
+
 	/**
 	* Place all elements of the list in a Simple array in order.
 	* @return array of all elements in the list. Return an empty array if list empty.
 	*/
     Simple[] toArray() {
-    	// SPECIAL CONSTRAINT. You cannot use ArrayList.
-    	// Use recursion (similar to the toString method)
-    	// The array to be filled is one of the parameters.
-    	//
-    	// This is an extra challenge -- don't spend too much time on it!!
-    	// Not a big deal if you don't get it right.
-        return null;
+        if (empty()) {
+            return new Simple[0];
+        }
+        Simple [] array = new Simple[count];
+        toArray(root, array, 0);
+        return array;
     }
-    
+
+    /**
+     * Put all elements of the list in a Simple array in order
+     * @param comp comparator to use for ordering the array
+     * @return array of all elements in the list. Return an empty array if list empty
+     */
+    public Simple[] toArray(Comparator<Simple> comp) {
+        Simple[] array = toArray();
+        Arrays.sort(array, comp);
+        return array;
+    }
+
+    /**
+     * Reorder the list using the specified comparator
+     * @param comp comparator to use for ordering the list
+     */
+    public void reorder(Comparator<Simple> comp) {
+        Simple[] array = toArray();
+        Arrays.sort(array, comp);
+        root = null;
+        count = 0;
+        for (Simple s : array) {
+            add(s);
+        }
+    }
+
+    /**
+     * Find the successor of the specified value
+     * @param value value to find the successor of
+     * @return successor of the specified value
+     */
+    public Simple successor(Simple value) throws IllegalOperationException {
+        Node n = findNode(value);
+        if (n == null) {
+            return null;
+        }
+        // If the right subtree is not empty, the successor is the minimum of the right subtree
+        if (n.right != dummy) {
+            return min();
+        }
+        // Otherwise, the successor is one of the ancestors
+        Node parent = n.parent;
+        while (parent != null && n == parent.right) {
+            n = parent;
+            parent = parent.parent;
+        }
+        if (parent == null) {
+            return null;
+        }else {
+            return parent.value;
+        }
+    }
+
+    /**
+     * Find the predecessor of the specified value
+     * @param value value to find the predecessor of
+     * @return predecessor of the specified value
+     */
+    public Simple predecessor(Simple value) throws IllegalOperationException {
+        Node n = findNode(value);
+        if (n == null) {
+            return null;
+        }
+        // If the left subtree is not empty, the predecessor is the maximum of the left subtree
+        if (n.left != dummy) {
+            return max();
+        }
+        // Otherwise, the predecessor is one of the ancestors
+        Node parent = n.parent;
+        while (parent != null && n == parent.left) {
+            n = parent;
+            parent = parent.parent;
+        }
+        if (parent == null) {
+            return null;
+        }else {
+            return parent.value;
+        }
+    }
+
     // ________________________________________________________________
     //                private NODE CLASS
     // _________________________________________________________________
@@ -227,20 +469,20 @@ class SimpleList {
     	int height = 0;
     	int depth = 0;
 
-		// Default constructor 
+		// Default constructor
 		Node() {
 			// this will create a Node with a null value
 			left = dummy;
     		right = dummy;
 		}
-		
+
 		// Constructor
     	Node(Simple v) {
     		this();
     		value = v;
 
     	}
-    	
+
     	@Override
 		public String toString() {
 			// both are null
